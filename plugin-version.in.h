@@ -1,0 +1,11 @@
+// Copyright (c) Alpaca Core
+// SPDX-License-Identifier: MIT
+//
+#pragma once
+
+#define ACLP_@nameSym@_VERSION_MAJOR @PROJECT_VERSION_MAJOR@
+#define ACLP_@nameSym@_VERSION_MINOR @PROJECT_VERSION_MINOR@
+#define ACLP_@nameSym@_VERSION_PATCH @PROJECT_VERSION_PATCH@
+#define ACLP_@nameSym@_VERSION_TAG "@PROJECT_VERSION_TAG@"
+
+#define ACLP_@nameSym@_VERSION_STRING "@PROJECT_VERSION@@PROJECT_VERSION_TAG@"
