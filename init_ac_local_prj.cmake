@@ -29,10 +29,12 @@ else()
     set(projectIsDeployComponent NO)
 endif()
 
-if(projectIsRoot OR AC_MONO_ROOT)
+if(projectIsRoot OR AC_MONO_ROOT OR AC_DEPLOY_ROOT)
+    # root project or a subdir of an ac root
     set(testsDefault ON)
     set(toolsDefault ON)
     if(projectIsDeployRoot OR projectIsDeployComponent)
+        # don't build examples on deploy
         set(examplesDefault OFF)
     else()
         set(examplesDefault ON)

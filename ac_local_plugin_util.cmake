@@ -16,6 +16,7 @@ function(add_ac_local_plugin)
 
     set(targetName aclp-${ARG_NAME})
 
+    # add library
     add_library(${targetName} MODULE
         ${ARG_SOURCES}
     )
@@ -33,6 +34,7 @@ function(add_ac_local_plugin)
 
     string(MAKE_C_IDENTIFIER ${ARG_NAME} nameSym)
 
+    # configure version
     configure_file(
         "${AC_LOCAL_CMAKE_LIB_DIR}/plugin-version.in.h"
         version.h
@@ -40,6 +42,7 @@ function(add_ac_local_plugin)
     )
     target_include_directories(${targetName} PRIVATE "${CMAKE_CURRENT_BINARY_DIR}")
 
+    # add helper target for tests and examples which want to use the plugin directly
     configure_file(
         "${AC_LOCAL_CMAKE_LIB_DIR}/plugin-dir.in.h"
         ${targetName}-dir.h
@@ -49,6 +52,7 @@ function(add_ac_local_plugin)
     add_library(ac-dev::${targetName}-dir ALIAS ${targetName}-dir)
     target_include_directories(${targetName}-dir INTERFACE ${CMAKE_CURRENT_BINARY_DIR})
 
+    # install
     install(TARGETS ${targetName}
         COMPONENT plugins
         LIBRARY DESTINATION lib/ac-local
