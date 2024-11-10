@@ -27,3 +27,11 @@ function(add_ac_local acLocalVersion)
         message(FATAL_ERROR "ac-local version mismatch. Expected ${acLocalVersion}. Got ${ac-local_VERSION}")
     endif()
 endfunction()
+
+function(make_ac_local_plugin_available name)
+    if(projectIsDeployComponent)
+        # project is a deploy component
+        # plugin is assumed to be installed and available
+        return()
+    endif()
+endfunction()
