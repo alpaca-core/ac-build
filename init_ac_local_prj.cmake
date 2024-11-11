@@ -9,14 +9,14 @@ option(AC_DEPLOY_ROOT "project is a deploy root" OFF)
 option(AC_DEPLOY_COMP "project is a deploy component" OFF)
 mark_as_advanced(AC_MONO_ROOT AC_MONO_COMP AC_DEPLOY_ROOT AC_DEPLOY_COMP)
 
-if(CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
+if(PROJECT_IS_TOP_LEVEL)
     set(projectIsSubdir NO)
     set(projectIsRoot YES)
     set(projectIsMonoRoot ${AC_MONO_ROOT})
     set(projectIsMonoComponent ${AC_MONO_COMP})
     set(projectIsDeployRoot ${AC_DEPLOY_ROOT})
     set(projectIsDeployComponent ${AC_DEPLOY_COMP})
-    if(NOT projectIsMonoRoot AND NOT projecdIsMonoComponent
+    if(NOT projectIsMonoRoot AND NOT projectIsMonoComponent
         AND NOT projectIsDeployRoot AND NOT projectIsDeployComponent)
         # standalone if none of the above opinions are set
         set(projectIsStandalone YES)
