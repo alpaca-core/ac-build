@@ -11,6 +11,11 @@ function(add_ac_subdir)
             find_package(${ARG_NAME} ${ARG_VERSION} REQUIRED)
         elseif(AC_BUILD_MONO)
             add_subdirectory("${CMAKE_SOURCE_DIR}/../${ARG_NAME}" ${ARG_NAME})
+
+            if(NOT ${ARG_NAME}_VERSION VERSION_EQUAL ARG_VERSION)
+                message(FATAL_ERROR "${ARG_NAME} version mismatch. Expected ${ARG_VERSION}. Got ${${ARG_NAME}_VERSION}")
+            endif()
+
             set(${ARG_NAME}_ROOT "${CMAKE_CURRENT_BINARY_DIR}/${ARG_NAME}"
                 CACHE PATH "ac-build: find_package path to ${ARG_NAME}" FORCE)
         else() # standalone or deploy
@@ -28,10 +33,6 @@ function(add_ac_subdir)
             set(${ARG_NAME}_ROOT "${${ARG_NAME}_BINARY_DIR}"
                 CACHE PATH "ac-build: find_package path to ${ARG_NAME}" FORCE)
         endif()
-    endif()
-
-    if(NOT ${ARG_NAME}_VERSION VERSION_EQUAL ARG_VERSION)
-        message(FATAL_ERROR "${ARG_NAME} version mismatch. Expected ${ARG_VERSION}. Got ${${ARG_NAME}_VERSION}")
     endif()
 endfunction()
 
