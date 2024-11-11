@@ -1,24 +1,32 @@
 # Copyright (c) Alpaca Core
 # SPDX-License-Identifier: MIT
 #
+include_guard(GLOBAL)
 
-function(add_ac_local_subdir)
+function(add_ac_subdir)
     cmake_parse_arguments(ARG "" "NAME;TARGET;VERSION;GITHUB" "" ${ARGN})
 
     if(NOT TARGET ${ARG_TARGET})
-        if(projectIsSubdir OR projectIsStandalone OR projectIsDeployRoot)
+        if(AC_BUILD_COMPONENT)
+            find_package(${ARG_NAME} ${ARG_VERSION} REQUIRED)
+        elseif(AC_BUILD_MONO)
+            add_subdirectory("${CMAKE_SOURCE_DIR}/../${ARG_NAME}" ${ARG_NAME})
+            set(${ARG_NAME}_ROOT "${CMAKE_CURRENT_BINARY_DIR}/${ARG_NAME}"
+                CACHE PATH "ac-build: find_package path to ${ARG_NAME}" FORCE)
+        else() # standalone or deploy
             CPMAddPackage(
                 NAME ${ARG_NAME}
                 VERSION ${ARG_VERSION}
                 SYSTEM FALSE # not system, so that it's installable
                 GITHUB_REPOSITORY ${ARG_GITHUB}
             )
-            set(${ARG_NAME}_ROOT "${${ARG_NAME}_BINARY_DIR}" PARENT_SCOPE)
-        elseif(projectIsMonoRoot)
-            add_subdirectory("${CMAKE_SOURCE_DIR}/../${ARG_NAME}" ${ARG_NAME})
-            set(${ARG_NAME}_ROOT "${CMAKE_CURRENT_BINARY_DIR}/${ARG_NAME}" PARENT_SCOPE)
-        elseif(projectIsMonoComponent OR projectIsDeployComponent)
-            find_package(${ARG_NAME} ${ARG_VERSION} REQUIRED)
+
+            if(NOT ${ARG_NAME}_ADDED)
+                message(FATAL_ERROR "Adding ac-build project ${ARG_NAME} multiple times")
+            endif()
+
+            set(${ARG_NAME}_ROOT "${${ARG_NAME}_BINARY_DIR}"
+                CACHE PATH "ac-build: find_package path to ${ARG_NAME}" FORCE)
         endif()
     endif()
 
@@ -28,7 +36,7 @@ function(add_ac_local_subdir)
 endfunction()
 
 macro(add_ac_local acLocalVersion)
-    add_ac_local_subdir(
+    add_ac_subdir(
         NAME ac-local
         TARGET ac::local
         VERSION ${acLocalVersion}
@@ -36,10 +44,5 @@ macro(add_ac_local acLocalVersion)
     )
 endmacro()
 
-function(make_ac_local_plugin_available name)
-    if(projectIsDeployComponent)
-        # project is a deploy component
-        # plugin is assumed to be installed and available
-        return()
-    endif()
+function(make_ac_plugin_available)
 endfunction()

@@ -3,7 +3,7 @@
 #
 
 # must be macro, so that set values propagate to parent scope
-macro(init_ac_local_plugin_option name)
+macro(init_ac_plugin_option name)
     option(BUILD_AC_${name}_PLUGIN "${CMAKE_PROJECT_NAME}: build AC Local plugin" ${pluginDefault})
     if(BUILD_AC_${name}_PLUGIN)
         set(BUILD_SHARED_LIBS OFF)
@@ -11,7 +11,7 @@ macro(init_ac_local_plugin_option name)
     endif()
 endmacro()
 
-function(add_ac_local_plugin)
+function(add_ac_plugin)
     cmake_parse_arguments(ARG "" "NAME" "SOURCES;LIBRARIES" ${ARGN})
 
     set(targetName aclp-${ARG_NAME})
@@ -36,7 +36,7 @@ function(add_ac_local_plugin)
 
     # configure version
     configure_file(
-        "${AC_LOCAL_CMAKE_LIB_DIR}/plugin-version.in.h"
+        "${AC_BUILD_LIB_DIR}/plugin-version.in.h"
         version.h
         @ONLY
     )
@@ -44,7 +44,7 @@ function(add_ac_local_plugin)
 
     # add helper target for tests and examples which want to use the plugin directly
     configure_file(
-        "${AC_LOCAL_CMAKE_LIB_DIR}/plugin-dir.in.h"
+        "${AC_BUILD_LIB_DIR}/plugin-dir.in.h"
         ${targetName}-dir.h
         @ONLY
     )
