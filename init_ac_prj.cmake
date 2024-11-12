@@ -1,8 +1,6 @@
 # Copyright (c) Alpaca Core
 # SPDX-License-Identifier: MIT
 #
-set(AC_BUILD_LIB_DIR "${CMAKE_CURRENT_LIST_DIR}")
-
 option(AC_BUILD_MONO "ac-build: monorepo mode" OFF)
 option(AC_BUILD_DEPLOY "ac-build: deploy mode" OFF)
 option(AC_BUILD_COMPONENT "ac-build: project is a component" OFF)
