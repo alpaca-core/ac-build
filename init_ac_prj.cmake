@@ -10,12 +10,23 @@ if(PROJECT_IS_TOP_LEVEL)
     include(setup_ac_top_level_prj)
 endif()
 
-if(PROJECT_IS_TOP_LEVEL OR AC_BUILD_MONO OR AC_BUILD_DEPLOY)
-    # root project or a subdir in monorepo or deploy mode
+if(AC_BUILD_MONO OR AC_BUILD_DEPLOY)
+    # root project or a subdir or a component in monorepo or deploy mode
+    set(testsDefault ON)
+    set(examplesDefault ON)
+    set(pluginDefault ON)
+elseif(AC_BUILD_COMPONENT)
+    # component of standalone project
+    set(testsDefault OFF)
+    set(examplesDefault OFF)
+    set(pluginDefault OFF)
+elseif(PROJECT_IS_TOP_LEVEL)
+    # top level standalone project
     set(testsDefault ON)
     set(examplesDefault ON)
     set(pluginDefault ON)
 else()
+    # standalone project subdir
     set(testsDefault OFF)
     set(examplesDefault OFF)
     set(pluginDefault OFF)
