@@ -44,24 +44,3 @@ macro(add_ac_local acLocalVersion)
         GITHUB "alpaca-core/ac-local"
     )
 endmacro()
-
-function(make_ac_plugin_available)
-    cmake_parse_arguments(ARG "" "NAME;VERSION;GITHUB" "" ${ARGN})
-
-    if(NOT ${ARG_NAME}_ROOT)
-        # need to fetch the plugin
-        set(pluginBinaryDir "${CMAKE_BINARY_DIR}/_ac-plugins/${ARG_NAME}-${ARG_VERSION}")
-        if(AC_BUILD_MONO)
-            set(pluginSrcDir "${CMAKE_SOURCE_DIR}/../${ARG_NAME}")
-        else()
-            CPMAddPackage(
-                NAME ${ARG_NAME}
-                VERSION ${ARG_VERSION}
-                GITHUB_REPOSITORY ${ARG_GITHUB}
-                DOWNLOAD_ONLY # don't add as a subdirectory
-            )
-            set(pluginSrcDir "${${ARG_NAME}_SOURCE_DIR}")
-        endif()
-    endif()
-
-endfunction()
