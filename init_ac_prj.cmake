@@ -13,7 +13,12 @@ endif()
 if(AC_BUILD_MONO OR AC_BUILD_DEPLOY)
     # root project or a subdir or a component in monorepo or deploy mode
     set(testsDefault ON)
-    set(examplesDefault ON)
+    if(AC_BUILD_DEPLOY AND AC_BUILD_COMPONENT)
+        # the examples of a deploy mode component are inaccessible so don't waste time building them
+        set(examplesDefault OFF)
+    else()
+        set(examplesDefault ON)
+    endif()
     set(pluginDefault ON)
 elseif(AC_BUILD_COMPONENT)
     # component of standalone project
