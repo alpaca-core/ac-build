@@ -36,11 +36,11 @@ function(add_ac_subdir)
     endif()
 endfunction()
 
-macro(add_ac_local acLocalVersion)
+macro(add_ac_local acSdkVersion)
     add_ac_subdir(
-        NAME ac-local
+        NAME alpaca-core-sdk
         TARGET ac::local
-        VERSION ${acLocalVersion}
-        GITHUB "alpaca-core/ac-local"
+        VERSION ${acSdkVersion}
+        GITHUB "alpaca-core/alpaca-core-sdk"
     )
 endmacro()
