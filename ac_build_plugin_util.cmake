@@ -3,7 +3,7 @@
 #
 include_guard(GLOBAL)
 
-# just have this asa a macro, so that set values propagate to parent scope
+# just have this as a macro so that set values propagate to parent scope
 # and we don't have to think about PARENT_SCOPE
 macro(init_ac_plugin_option name)
     option(BUILD_AC_${name}_PLUGIN "${CMAKE_PROJECT_NAME}: build Alpaca Core plugin" ${pluginDefault})

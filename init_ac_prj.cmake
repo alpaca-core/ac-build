@@ -11,7 +11,7 @@ if(PROJECT_IS_TOP_LEVEL)
 endif()
 
 if(AC_BUILD_MONO OR AC_BUILD_DEPLOY)
-    # root project or a subdir or a component in monorepo or deploy mode
+    # root project, or a subdir, or a component in monorepo or deploy mode
     set(testsDefault ON)
     if(AC_BUILD_DEPLOY AND AC_BUILD_COMPONENT)
         # the examples of a deploy mode component are inaccessible so don't waste time building them
@@ -24,7 +24,7 @@ elseif(AC_BUILD_COMPONENT)
     # component of standalone project
     set(testsDefault OFF)
     set(examplesDefault OFF)
-    set(pluginDefault OFF)
+    set(pluginDefault ON)
 elseif(PROJECT_IS_TOP_LEVEL)
     # top level standalone project
     set(testsDefault ON)
